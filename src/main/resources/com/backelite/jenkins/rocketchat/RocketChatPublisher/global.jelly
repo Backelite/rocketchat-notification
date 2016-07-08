@@ -1,0 +1,12 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:f="/lib/form">
+
+  <f:section title="Rocket.Chat" name="rocketchat">
+
+    <f:entry title="Webhook URL" field="webhookURL" description="Rocket.Chat webhook incoming integration URL">
+      <f:textbox />
+    </f:entry>
+
+  </f:section>
+
+</j:jelly>
