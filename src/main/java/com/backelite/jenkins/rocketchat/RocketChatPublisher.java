@@ -55,36 +55,47 @@ public class RocketChatPublisher extends Notifier implements Serializable {
 
         listener.getLogger().println("Notifying Rocket.Chat");
 
-        // Load and expand global settings
-        String webhookURL = this.getDescriptor().getWebhookUrl();
+        if (shouldNotify(build)) {
 
-        // API client instance
-        RocketChatAPIClient client = new RocketChatAPIClient(webhookURL, listener.getLogger());
+            // Load and expand global settings
+            String webhookURL = this.getDescriptor().getWebhookUrl();
 
-        // Build payload
-        RocketChatPostPayload payload = this.buildPayload(build);
+            // API client instance
+            RocketChatAPIClient client = new RocketChatAPIClient(webhookURL, listener.getLogger());
+
+            // Build payload
+            RocketChatPostPayload payload = this.buildPayload(build);
 
 
-        // Post message
-        try {
-            client.post(payload);
+            // Post message
+            try {
+                client.post(payload);
+                return true;
+            } catch (RocketChatAPIException e) {
+                // Log but do not mark build as failed
+                listener.getLogger().println("Failed to notify Rocket.Chat: " + e.getMessage());
+                return false;
+            }
+
+        } else {
             return true;
-        } catch (RocketChatAPIException e) {
-            // Log but do not mark build as failed
-            listener.getLogger().println("Failed to notify Rocket.Chat: " + e.getMessage());
-            return false;
         }
-
-
 
     }
 
-    private RocketChatPostPayload buildPayload(AbstractBuild<?, ?> build) {
+    private boolean shouldNotify(AbstractBuild<?, ?> build) {
 
-        RocketChatPostPayload payload = new RocketChatPostPayload();
+        boolean shouldNotify = true;
+        if (build.getResult() == Result.SUCCESS) {
+            if (!isBackToNormal(build) && notifyBackToNormalOnly) {
+               shouldNotify = false;
+            }
+        }
+        return shouldNotify;
+    }
 
+    private boolean isBackToNormal(AbstractBuild<?, ?> build) {
 
-        // Detect back to normal
         boolean backToNormal = false;
         if (build.getPreviousBuild() != null) {
             if (build.getResult() == Result.SUCCESS &&
@@ -95,6 +106,12 @@ public class RocketChatPublisher extends Notifier implements Serializable {
             backToNormal = true;
         }
 
+        return backToNormal;
+    }
+
+    private RocketChatPostPayload buildPayload(AbstractBuild<?, ?> build) {
+
+        RocketChatPostPayload payload = new RocketChatPostPayload();
 
 
         // Project info
@@ -106,7 +123,7 @@ public class RocketChatPublisher extends Notifier implements Serializable {
         payload.setChannel(this.getChannel());
 
         // Title
-        if (backToNormal) {
+        if (isBackToNormal(build)) {
             payload.setText(String.format(":heavy_check_mark: Job [*%s - #%d*](%s) is back to normal", projectName, build.getNumber(), buildURL));
         } else if (build.getResult() == Result.FAILURE) {
             payload.setText(String.format(":x: Job [*%s - #%d*](%s) failed", projectName, build.getNumber(), buildURL));

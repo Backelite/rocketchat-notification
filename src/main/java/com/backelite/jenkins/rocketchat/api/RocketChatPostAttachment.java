@@ -14,7 +14,7 @@ public class RocketChatPostAttachment implements Serializable {
     private String titleLink;
     private String text;
     @SerializedName("image_url")
-    private String imageURL;
+    private String imageUrl;
     private String color;
 
     public RocketChatPostAttachment() {
@@ -45,12 +45,12 @@ public class RocketChatPostAttachment implements Serializable {
         this.text = text;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getColor() {

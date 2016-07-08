@@ -3,7 +3,7 @@
 
   <f:section title="Rocket.Chat" name="rocketchat">
 
-    <f:entry title="Webhook URL" field="webhookURL" description="Rocket.Chat webhook incoming integration URL">
+    <f:entry title="Webhook URL" field="webhookUrl" description="Rocket.Chat webhook incoming integration URL">
       <f:textbox />
     </f:entry>
 

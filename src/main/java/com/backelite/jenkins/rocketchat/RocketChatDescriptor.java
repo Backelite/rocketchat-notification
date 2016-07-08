@@ -39,7 +39,7 @@ public class RocketChatDescriptor extends BuildStepDescriptor<Publisher> impleme
     public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
 
         json = json.getJSONObject("rocketchat");
-        webhookUrl = json.getString("webhookURL");
+        webhookUrl = json.getString("webhookUrl");
         save();
         return true;
     }
