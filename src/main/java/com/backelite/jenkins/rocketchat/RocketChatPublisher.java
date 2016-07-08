@@ -131,9 +131,9 @@ public class RocketChatPublisher extends Notifier implements Serializable {
             testAttachment.setTitle("Tests");
             testAttachment.setTitleLink(build.getProject().getAbsoluteUrl() + build.getNumber() + "/testReport/");
             // Color
-            String color = "#ff0000";
+            String color = "#009933";
             if (failed > 0) {
-                color = "#009933";
+                color = "#ff0000";
             } else if (skipped > 0) {
                 color = "#ffcc00";
             }
