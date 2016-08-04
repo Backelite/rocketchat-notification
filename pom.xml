@@ -11,8 +11,8 @@
   </parent>
 
   <groupId>com.backelite.jenkins</groupId>
-  <artifactId>rocketchat</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>rocketchat-notification</artifactId>
+  <version>1.0</version>
   <packaging>hpi</packaging>
 
   <properties>
@@ -30,8 +30,8 @@
   </properties>
 
   <name>Rocket.Chat Plugin</name>
-  <description>TODO</description>
-  <url>https://wiki.jenkins-ci.org/display/JENKINS/TODO+Plugin</url>
+  <description>Rocket.Chat notification for Jenkins CI</description>
+  <url>https://github.com/Backelite/rocketchat-notification</url>
 
   <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->
 
