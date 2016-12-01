@@ -21,12 +21,14 @@ public class RocketChatPublisher extends Notifier implements Serializable {
 
     private String channel;
     private boolean notifyBackToNormalOnly;
+    private boolean notifyBuildIsBrokenOnly;
     private boolean showTestSummary;
 
     @DataBoundConstructor
-    public RocketChatPublisher(String channel, boolean notifyBackToNormalOnly, boolean showTestSummary) {
+    public RocketChatPublisher(String channel, boolean notifyBackToNormalOnly, boolean notifyBuildIsBrokenOnly, boolean showTestSummary) {
         this.setChannel(channel);
         this.notifyBackToNormalOnly = notifyBackToNormalOnly;
+        this.notifyBuildIsBrokenOnly = notifyBuildIsBrokenOnly;
         this.showTestSummary = showTestSummary;
     }
 
@@ -87,7 +89,7 @@ public class RocketChatPublisher extends Notifier implements Serializable {
 
         boolean shouldNotify = true;
         if (build.getResult() == Result.SUCCESS) {
-            if (!isBackToNormal(build) && notifyBackToNormalOnly) {
+            if ((!isBackToNormal(build) && notifyBackToNormalOnly) || notifyBuildIsBrokenOnly) {
                shouldNotify = false;
             }
         }
@@ -183,6 +185,14 @@ public class RocketChatPublisher extends Notifier implements Serializable {
     public void setNotifyBackToNormalOnly(boolean notifyBackToNormalOnly) {
         this.notifyBackToNormalOnly = notifyBackToNormalOnly;
     }
+
+		public boolean isNotifyBuildIsBrokenOnly() {
+			return notifyBuildIsBrokenOnly;
+		} 
+
+		public void setNotifyBuildIsBrokenOnly(boolean notifyBuildIsBrokenOnly) {
+			this.notifyBuildIsBrokenOnly = notifyBuildIsBrokenOnly;
+		}
 
     public boolean isShowTestSummary() {
         return showTestSummary;
